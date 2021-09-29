@@ -12,13 +12,25 @@ contract QnA is Ownable {
     function addQuestion(uint256 qNumber, bytes32 answer) public onlyOwner{
         questionsAns[qNumber] = answer;
     }
+
+    function removeQuestion(uint256 qNumber) public onlyOwner {
+        questionsAns[qNumber] = "";
+    }
+
+    function editQuestion(uint256 qNumber, bytes32 answer) public onlyOwner{
+        questionsAns[qNumber] = answer;
+    }
+
+
     
     function ansQuestionString(string memory answer, uint256 qNumber) public view returns(bool) {
+        require(questionsAns[qNumber] != "", "This answer is not set");
         bytes32 answerBytes = keccak256(abi.encodePacked(answer));
         return questionsAns[qNumber] == answerBytes;
     }
     
     function ansQuestionBytes(bytes32 answer, uint256 qNumber) public view returns(bool){
+        require(questionsAns[qNumber] != "", "This answer is not set");
         return questionsAns[qNumber] == answer;
     }
     
